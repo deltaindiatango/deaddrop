@@ -1,0 +1,4 @@
+SOCKSPort 65052
+HiddenServiceDir /home/dit/python/deaddrop 
+HiddenServicePort 80 127.0.0.1:1330
+DataDirector /home/dit/python/deaddrop/data 
