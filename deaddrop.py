@@ -128,7 +128,7 @@ class source(web.RequestHandler):
 class submission(object):
 
     def __init__(self,
-                 expiry=int(time()) + 60 * 60 * 24,
+                 expiry=0,
                  burn_after_reading=True,
                  name=None,
                  text=''):
@@ -136,7 +136,10 @@ class submission(object):
             name = uuid4().hex
         self.text = text
         self.name = name
-        self.expiry = expiry
+        if expiry == 0:
+            expiry = 60 * 60 * 24
+        self.expiry = int(time()) + expiry
+            
         self.burn_after_reading = burn_after_reading
 
     def render(self, raw=False):
@@ -170,6 +173,6 @@ if __name__ == '__main__':
     app.settings['hash'] = source_hash
     server = httpserver.HTTPServer(app, chunk_size=10240, max_body_size=10240)
     sockets = netutil.bind_sockets(1330, address='localhost')
-    process.fork_processes(1)
+    process.fork_processes(0)
     server.add_sockets(sockets)
     ioloop.IOLoop.current().start()
